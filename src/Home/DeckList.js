@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Deck from "./Deck";
+import DeckCover from "./DeckCover";
 import { listDecks } from "../utils/api/index";
 import NotFound from "../Layout/NotFound";
 import { DiffAddedIcon } from "@primer/octicons-react";
@@ -19,7 +19,7 @@ export const DeckList = () => {
     return <NotFound />;
   }
 
-  const list = decks.map((deck) => <Deck key={deck.id} deck={deck} />);
+  const list = decks.map((deck) => <DeckCover key={deck.id} deck={deck} />);
 
   return (
     <div className="DeckList">
