@@ -29,12 +29,12 @@ export const DeckCover = ({ deck = {} }) => {
         <p className="mb-1">{deck.description}</p>
         <div className="d-flex justify-content-between">
           <div className="group-left">
-            <button type="button" className="btn btn-secondary mr-1" onClick={() => history.push(`/decks/:${deck.id}`)}>
+            <button type="button" className="btn btn-secondary mr-1" onClick={() => history.push(`/decks/${deck.id}`)}>
               <EyeIcon size={16} verticalAlign="middle" aria-label="View" />
               &nbsp;View
             </button>
 
-            <button type="button" className="btn btn-primary ml-1">
+            <button type="button" className="btn btn-primary ml-1" onClick={() => history.push(`/decks/${deck.id}/study`)}>
               <RepoIcon size={16} verticalAlign="middle" aria-label="Study" />
               &nbsp;Study
             </button>

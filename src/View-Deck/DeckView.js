@@ -5,11 +5,11 @@ export const DeckView = () => {
   return (
     <div>
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="/"><HomeFillIcon size={24} aria-label="Home" verticalAlign="top" />Home</a>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item">
+            <a href="/"><HomeFillIcon size={24} aria-label="Home" verticalAlign="top" />&nbsp;Home</a>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">
+          <li className="breadcrumb-item active" aria-current="page">
             Deck Name
           </li>
         </ol>

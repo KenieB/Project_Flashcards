@@ -3,7 +3,8 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "../Home/DeckList";
-import DeckView from "../Deck/DeckView";
+import DeckView from "../View-Deck/DeckView";
+import StudyDeck from "../Study-Deck/StudyDeck";
 
 function Layout() {
   const { url } = useRouteMatch();
@@ -13,6 +14,9 @@ function Layout() {
       <div className="container">
         {/* TODO: Implement the screen starting here */}
         <Switch>
+          <Route path={`/decks/:deckId/study`}>
+            <StudyDeck />
+          </Route>
           <Route path={`/decks/:deckId`}>
             <DeckView />
           </Route>
