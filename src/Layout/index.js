@@ -1,27 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "../Home/DeckList";
 import DeckView from "../View-Deck/DeckView";
 import StudyDeck from "../Study-Deck/StudyDeck";
+import DeckLayout from "../Deck-Layout/DeckLayout";
 
 function Layout() {
-  const { url } = useRouteMatch();
+  const { url, } = useRouteMatch();
+  const [decks, setDecks] = useState([]);
+  const [error, setError] = useState(undefined);
+  const [deck, setDeck] = useState({});
+
   return (
     <>
       <Header />
       <div className="container">
         {/* TODO: Implement the screen starting here */}
-        <Switch>
-          <Route path={`/decks/:deckId/study`}>
-            <StudyDeck />
+        <Switch>        
+          <Route exact path="/">
+            <DeckList decks={decks} setDecks={setDecks} error={error} setError={setError} deck={deck} setDeck={setDeck} />
           </Route>
-          <Route path={`/decks/:deckId`}>
-            <DeckView />
-          </Route>
-          <Route path={`${url}`}>
-            <DeckList />
+          <Route path="/decks/:deckId">
+            <DeckLayout deck={deck} setDeck={setDeck} error={error} setError={setError} />
           </Route>
           <Route>
             <NotFound />

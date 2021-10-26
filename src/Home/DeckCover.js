@@ -1,10 +1,11 @@
 import React from "react";
 import { EyeIcon, RepoIcon, TrashIcon } from "@primer/octicons-react";
 import { deleteDeck } from "../utils/api/index";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 export const DeckCover = ({ deck = {} }) => {
   const history = useHistory();
+
   async function handleDelete(id) {
     console.log(id);
     const result = window.confirm(
@@ -15,6 +16,15 @@ export const DeckCover = ({ deck = {} }) => {
       history.go(0);
       //refresh working but deleteDeck not?
     }
+  }
+  const viewClickHandler = (event) => {
+    event.preventDefault();
+    history.push(`/decks/${deck.id}`);
+  }
+
+  const studyClickHandler = (event) => {
+    event.preventDefault();
+    history.push(`/decks/${deck.id}/study`);
   }
   return (
     <>
@@ -29,12 +39,12 @@ export const DeckCover = ({ deck = {} }) => {
         <p className="mb-1">{deck.description}</p>
         <div className="d-flex justify-content-between">
           <div className="group-left">
-            <button type="button" className="btn btn-secondary mr-1" onClick={() => history.push(`/decks/${deck.id}`)}>
+            <button type="button" className="btn btn-secondary mr-1" onClick={viewClickHandler}>
               <EyeIcon size={16} verticalAlign="middle" aria-label="View" />
               &nbsp;View
             </button>
 
-            <button type="button" className="btn btn-primary ml-1" onClick={() => history.push(`/decks/${deck.id}/study`)}>
+            <button type="button" className="btn btn-primary ml-1" onClick={studyClickHandler}>
               <RepoIcon size={16} verticalAlign="middle" aria-label="Study" />
               &nbsp;Study
             </button>

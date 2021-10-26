@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import DeckCover from "./DeckCover";
 import { listDecks } from "../utils/api/index";
 import NotFound from "../Layout/NotFound";
 import { DiffAddedIcon } from "@primer/octicons-react";
 //import { Route, Switch } from "react-router-dom";
 
-export const DeckList = () => {
-  const [decks, setDecks] = useState([]);
-  const [error, setError] = useState(undefined);
+export const DeckList = ({ decks,setDecks,error,setError,deck,setDeck }) => {
+  
 
   useEffect(() => {
     const abortController = new AbortController();
