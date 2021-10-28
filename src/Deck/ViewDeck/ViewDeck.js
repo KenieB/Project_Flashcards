@@ -8,10 +8,10 @@ export const ViewDeck = ({ deck,setDeck }) => {
   const { url,path } = useRouteMatch();
   const location = useLocation();
   //
-  console.log("DeckView params:", params);
-  console.log("DeckView location:", location);
-  console.log("DeckView url:", url);
-  console.log("DeckView path:", path);
+  console.log("ViewDeck params:", params);
+  console.log("ViewDeck location:", location);
+  console.log("ViewDeck url:", url);
+  console.log("ViewDeck path:", path);
   //
 
   return (
