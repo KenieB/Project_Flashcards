@@ -12,13 +12,13 @@ export const DeckList = ({ decks,setDecks,error,setError,deck,setDeck }) => {
     const abortController = new AbortController();
     listDecks(abortController.signal).then(setDecks).catch(setError);
     return () => abortController.abort();
-  }, []);
+  }, [setDeck,setError]);
 
   if (error) {
     return <NotFound />;
   }
 
-  const list = decks.map((deck) => <DeckCover key={deck.id} deck={deck} />);
+  const list = decks.map((deck) => <DeckCover key={deck.id} deck={deck} setDecks={setDecks} setError={setError} />);
 
   return (
     <div className="DeckList">

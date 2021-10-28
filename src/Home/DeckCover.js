@@ -1,31 +1,34 @@
 import React from "react";
 import { EyeIcon, RepoIcon, TrashIcon } from "@primer/octicons-react";
-import { deleteDeck } from "../utils/api/index";
+import { deleteDeck, listDecks } from "../utils/api/index";
 import { useHistory } from "react-router-dom";
 
-export const DeckCover = ({ deck = {} }) => {
+export const DeckCover = ({ deck = {}, setDecks, setError }) => {
   const history = useHistory();
-
-  async function handleDelete(id) {
-    console.log(id);
+  const id = deck.id;
+  const handleDelete = (event) => {
+    console.log("Delete deck click ", id, " executed");
+    const abortController = new AbortController();
     const result = window.confirm(
       "Delete this deck?\n\nYou will not be able to recover it."
     );
     if (result) {
-      await deleteDeck(id);
+      deleteDeck(id, abortController.signal).then(event.preventDefault());
       history.go(0);
-      //refresh working but deleteDeck not?
     }
-  }
+  };
+
   const viewClickHandler = (event) => {
     event.preventDefault();
+
     history.push(`/decks/${deck.id}`);
-  }
+  };
 
   const studyClickHandler = (event) => {
     event.preventDefault();
+
     history.push(`/decks/${deck.id}/study`);
-  }
+  };
   return (
     <>
       <a
@@ -39,12 +42,20 @@ export const DeckCover = ({ deck = {} }) => {
         <p className="mb-1">{deck.description}</p>
         <div className="d-flex justify-content-between">
           <div className="group-left">
-            <button type="button" className="btn btn-secondary mr-1" onClick={viewClickHandler}>
+            <button
+              type="button"
+              className="btn btn-secondary mr-1"
+              onClick={viewClickHandler}
+            >
               <EyeIcon size={16} verticalAlign="middle" aria-label="View" />
               &nbsp;View
             </button>
 
-            <button type="button" className="btn btn-primary ml-1" onClick={studyClickHandler}>
+            <button
+              type="button"
+              className="btn btn-primary ml-1"
+              onClick={studyClickHandler}
+            >
               <RepoIcon size={16} verticalAlign="middle" aria-label="Study" />
               &nbsp;Study
             </button>

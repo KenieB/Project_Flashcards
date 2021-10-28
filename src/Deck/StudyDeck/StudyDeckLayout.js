@@ -2,7 +2,7 @@ import React from "react";
 import { HomeFillIcon } from "@primer/octicons-react";
 import { useParams, Link, useRouteMatch } from "react-router-dom";
 
-export const StudyDeck = () => {
+export const StudyDeckLayout = ({ deck }) => {
   const params = useParams();
   const { url,path } = useRouteMatch();
   
@@ -15,19 +15,19 @@ export const StudyDeck = () => {
           <li className="breadcrumb-item">
             <Link to="/">
               <HomeFillIcon size={24} aria-label="Home" verticalAlign="top" />
-              Home
+              &nbsp;Home
             </Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to={"/decks/:deckId"}>Deck Name</Link>
+            <Link to={`/decks/${deck.id}`}>{deck.name}</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             Study
           </li>
         </ol>
       </nav>
-      <h1>Study Deck Placeholder</h1>
+      <h1>StudyDeckLayout Placeholder</h1>
     </div>
   );
 };
-export default StudyDeck;
+export default StudyDeckLayout;

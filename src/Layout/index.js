@@ -3,12 +3,12 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "../Home/DeckList";
-import DeckView from "../View-Deck/DeckView";
-import StudyDeck from "../Study-Deck/StudyDeck";
-import DeckLayout from "../Deck-Layout/DeckLayout";
+import DeckView from "../Deck/DeckView";
+import StudyDeck from "../Deck/StudyDeck";
+import DeckLayout from "../Deck/DeckLayout";
 
 function Layout() {
-  const { url, } = useRouteMatch();
+  const { url } = useRouteMatch();
   const [decks, setDecks] = useState([]);
   const [error, setError] = useState(undefined);
   const [deck, setDeck] = useState({});
