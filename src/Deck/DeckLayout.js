@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Route, Switch, useRouteMatch, useParams } from "react-router-dom";
 import { readDeck } from "../utils/api";
 import ViewDeck from "./ViewDeck/ViewDeck";
-import StudyDeckLayout from "./StudyDeck";
+import StudyDeckLayout from "./StudyDeck/StudyDeckLayout"
 import NotFound from "../Layout/NotFound";
 
 export const DeckLayout = ({ deck, setDeck, error, setError }) => {

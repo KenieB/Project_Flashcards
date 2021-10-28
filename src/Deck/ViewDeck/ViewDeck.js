@@ -26,7 +26,7 @@ export const ViewDeck = ({ deck,setDeck }) => {
           </li>
         </ol>
       </nav>
-      <h1>Deck View Placeholder</h1>
+      <h1>ViewDeck Placeholder</h1>
     </div>
   );
 };

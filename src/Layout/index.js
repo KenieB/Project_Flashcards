@@ -3,9 +3,10 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "../Home/DeckList";
-import DeckView from "../Deck/DeckView";
-import StudyDeck from "../Deck/StudyDeck";
 import DeckLayout from "../Deck/DeckLayout";
+import ViewDeck from "../Deck/ViewDeck/ViewDeck";
+import StudyDeckLayout from "../Deck/StudyDeck/StudyDeckLayout"
+
 
 function Layout() {
   const { url } = useRouteMatch();
