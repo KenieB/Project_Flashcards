@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "../Home/DeckList";
@@ -9,7 +9,6 @@ import CreateDeckLayout from "../Deck/DeckManagement/CreateDeckLayout";
 import { DiffAddedIcon } from "@primer/octicons-react";
 
 function Layout() {
-  const { url } = useRouteMatch();
   //Deck(s) + API error state variables
   const [decks, setDecks] = useState([]);
   const [error, setError] = useState(undefined);

@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  useParams,
-  Link,
-  useLocation,
   useRouteMatch,
   useHistory,
 } from "react-router-dom";
@@ -11,46 +8,66 @@ import { createDeck } from "../../utils/api";
 export const DeckForm = ({ deck = {}, setDeck, setError }) => {
   const { url } = useRouteMatch();
   const history = useHistory();
+
   //Deck Form state variables
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  //Deck Form handlers
-  const handleNameChange = (event) => setName(event.target.value);
-  const handleDescriptionChange = (event) => setDescription(event.target.value);
+  const [deckName, setDeckName] = useState("");
+  const [deckDescription, setDeckDescription] = useState("");
   
+  //Deck value tracker
+  let newDeckId = 0;
+  //Deck Form handlers
+  const handleNameChange = (event) => setDeckName(event.target.value);
+  const handleDescriptionChange = (event) =>
+    setDeckDescription(event.target.value);
+
   const handleSubmitNew = (event) => {
-      event.preventDefault();
-      const abortController = new AbortController();
-      const newDeck = {name: name, description: description};
-      createDeck(newDeck, abortController.signal).then(setDeck).catch(setError);
-      history.push(`/decks/${deck.id}`);
-  };  
- 
+    event.preventDefault();
+    async function createNewDeck() {
+      try {
+        const abortController = new AbortController();
+        const response = await createDeck(
+          { name: deckName, description: deckDescription },
+          abortController.signal
+        );
+        newDeckId = response.id;
+        history.push(`/decks/${newDeckId}`);
+      } catch (error) {
+        if (error.name === "AbortError") {
+          console.log("Abort Error");
+        }
+      } finally {
+        newDeckId = 0;
+      }
+    }
+    createNewDeck();
+  };
+
+
 
   if (url === "/decks/new") {
     return (
       <>
         <form onSubmit={handleSubmitNew}>
           <div className="form-group">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="deckName">Name</label>
             <input
-              id="name"
+              id="deckName"
               type="text"
-              name="name"
+              name="deckName"
               className="form-control"
               onChange={handleNameChange}
-              value={name}
+              value={deckName}
               placeholder="Deck name"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Description</label>
+            <label htmlFor="deckDescription">Description</label>
             <textarea
-              id="description"
-              name="description"
+              id="deckDescription"
+              name="deckDescription"
               className="form-control"
               onChange={handleDescriptionChange}
-              value={description}
+              value={deckDescription}
               placeholder="Brief description of the deck"
               rows="5"
             />

@@ -13,15 +13,16 @@ export const DeckList = ({
   setDeck,
 }) => {
   const history = useHistory();
+  
   useEffect(() => {
     const abortController = new AbortController();
     listDecks(abortController.signal).then(setDecks).catch(setError);
     return () => abortController.abort();
   }, [setDecks, setError]);
 
-  if (error) {
+  /*if (error) {
     return <NotFound />;
-  }
+  }*/
 
   const list = decks.map((deck) => (
     <DeckCover
@@ -31,11 +32,6 @@ export const DeckList = ({
       setError={setError}
     />
   ));
-
-  /*const createDeckClickHandler = (event) => {
-    event.preventDefault();
-    history.push("/decks/new");
-  };*/
 
   return (
     <div className="DeckList">
