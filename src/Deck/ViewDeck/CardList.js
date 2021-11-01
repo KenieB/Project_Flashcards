@@ -7,10 +7,10 @@ export const CardList = ({ deckCards=[] }) => {
     <CardSummaryLayout key={card.id} card={card} />
   ));
 
-  useEffect(() => {
+ /* useEffect(() => {
    // console.log("deck: ", deck);
     console.log("CardList - deckCards: ", deckCards);
-  });
+  });*/
   return (
     <div className="card-list">
       <div className="list-group">{listCards}

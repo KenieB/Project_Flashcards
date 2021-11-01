@@ -41,7 +41,7 @@ export const ViewDeck = ({ deck, setDeck, deckCards }) => {
         </ol>
       </nav>
       <div className="deck-summary w-100">
-        <h3>{deck.name}</h3>
+        <h2>{deck.name}</h2>
         <p>{deck.description}</p>
         <div className="button-row d-flex justify-content-between mr-5">
           <div className="buttons-left w-75">
@@ -65,6 +65,7 @@ export const ViewDeck = ({ deck, setDeck, deckCards }) => {
         <h1>Cards</h1>
         <CardList deckCards={deckCards} />
       </div>
+      <div className="footer-space">&nbsp;</div>
     </>
   );
 };

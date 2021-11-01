@@ -5,9 +5,13 @@ import ViewDeck from "./ViewDeck/ViewDeck";
 import StudyDeckLayout from "./StudyDeck/StudyDeckLayout";
 import NotFound from "../Layout/NotFound";
 
+import EditDeckLayout from "./DeckManagement/EditDeckLayout";
+import AddCardLayout from "./CardManagement/AddCardLayout";
+import EditCardLayout from "./CardManagement/EditCardLayout";
+
 export const DeckLayout = ({ deck, setDeck, error, setError }) => {
   const { url, path } = useRouteMatch();
-  const [deckCards, setDeckCards] = useState([]);
+  const [deckCards, setDeckCards] = useState([]);  
   const params = useParams();
   const id = params.deckId;
 
@@ -19,7 +23,6 @@ export const DeckLayout = ({ deck, setDeck, error, setError }) => {
   }, [id, setDeck, setError]);
 
   useEffect(() => {
-    //const { cards } = { ...deck };
     setDeckCards(deck.cards);
     console.log("DeckLayout - deck: ", deck);
     console.log("DeckLayout - cards: ", deckCards);
@@ -36,6 +39,15 @@ export const DeckLayout = ({ deck, setDeck, error, setError }) => {
       </Route>
       <Route path={`${path}/study`}>
         <StudyDeckLayout deck={deck} />
+      </Route>
+      <Route path={`${path}/edit`}>
+        <EditDeckLayout deck={deck} setDeck={setDeck}  />
+      </Route>
+      <Route path={`${path}/cards/new`}>
+        <AddCardLayout deck={deck} />
+      </Route>
+      <Route path={`${path}/cards/:cardId/edit`}>
+        <EditCardLayout deck={deck} />
       </Route>
       <Route>
         <NotFound />

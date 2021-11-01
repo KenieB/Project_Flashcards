@@ -3,6 +3,11 @@ import { TrashIcon, PencilIcon } from "@primer/octicons-react";
 import { useHistory, useParams } from "react-router-dom";
 
 export const CardSummaryLayout = ({ card }) => {
+   /* const editClickHandler = (event) => {
+        event.preventDefault();
+    
+        history.push(`/decks/${deck.id}`);
+      };*/
   return (
     <div className="list-group-item justify-content-between">
       <div className="card-question d-flex w-100">

@@ -20,7 +20,7 @@ export const CreateDeckLayout = ({ deck = {}, setDeck, setError }) => {
         </ol>
       </nav>
       <h1>Create Deck</h1>
-      <DeckForm deck={deck} setDeck={setDeck} setError={setError} />
+      <DeckForm deck={deck} setDeck={setDeck} />
     </div>
   );
 };

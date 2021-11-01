@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
-import { createDeck, updateDeck } from "../../utils/api";
+import { createDeck, updateDeck, readDeck } from "../../utils/api";
 
-export const DeckForm = ({ deck = {}, setError }) => {
+export const DeckForm = ({ deck = {}, setDeck }) => {
   const { url } = useRouteMatch();
   const history = useHistory();
 
   //Deck Form state variables
   const [deckName, setDeckName] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
+  const [deckUpdateFlag, setDeckUpdateFlag] = useState(false);
 
   //Deck value tracker
   let newDeckId = 0;
+  const exstDeckId = deck.id;
 
   //Deck Form handlers
   const handleNameChange = (event) => setDeckName(event.target.value);
@@ -42,11 +44,31 @@ export const DeckForm = ({ deck = {}, setError }) => {
 
   const handleSubmitUpdate = (event) => {
     event.preventDefault();
+    const updatedDeck = {id: deck.id};
+    
+    if(deckName) {
+      if(deckDescription) {
+        updatedDeck.name = deckName;
+        updatedDeck.description = deckDescription;
+      } else {
+        updatedDeck.name = deckName;
+        updatedDeck.description = deck.description;
+      }
+    } else if(deckDescription) {
+      updatedDeck.name = deck.name;
+      updatedDeck.description = deckDescription;
+    } else {
+      updatedDeck.name = deck.name;
+      updatedDeck.description = deck.description;
+    };
+    console.log("Deck form- updatedDeck: ", updatedDeck);
+    
     async function updateExistingDeck() {
       try {
         const abortController = new AbortController();
-        await updateDeck(deck, abortController.signal);
-        history.push(`/decks/${deck.id}`);
+        console.log("handleSubmitUpdate deck before: ", deck);
+        await updateDeck(updatedDeck, abortController.signal);
+        setDeckUpdateFlag(true);
       } catch (error) {
         if (error.name === "AbortError") {
           console.log("Abort Error");
@@ -55,6 +77,14 @@ export const DeckForm = ({ deck = {}, setError }) => {
     }
     updateExistingDeck();
   };
+
+  useEffect(() => {
+    if(deckUpdateFlag){
+      readDeck(exstDeckId).then(setDeck);
+      console.log("DeckForm useEffect deck: ", deck);
+      history.push(`/decks/${deck.id}`);
+    }    
+  },[deckUpdateFlag]);
 
   if (url === "/decks/new") {
     return (
@@ -102,7 +132,7 @@ export const DeckForm = ({ deck = {}, setError }) => {
     return (
       <>
         <form onSubmit={handleSubmitUpdate}>
-        <div className="form-group">
+          <div className="form-group">
             <label htmlFor="deckName">Name</label>
             <input
               id="deckName"
@@ -137,7 +167,7 @@ export const DeckForm = ({ deck = {}, setError }) => {
           <button type="submit" className="btn btn-primary ml-1">
             Submit
           </button>
-          </form>
+        </form>
       </>
     );
   }
