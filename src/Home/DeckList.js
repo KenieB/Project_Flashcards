@@ -34,7 +34,7 @@ export const DeckList = ({
   ));
 
   return (
-    <div className="DeckList">
+    <div className="deck-list">
       <div className="list-group mt-2">{list}</div>
     </div>
   );

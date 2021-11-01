@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import {
-  useRouteMatch,
-  useHistory,
-} from "react-router-dom";
-import { createDeck } from "../../utils/api";
+import { useRouteMatch, useHistory } from "react-router-dom";
+import { createDeck, updateDeck } from "../../utils/api";
 
-export const DeckForm = ({ deck = {}, setDeck, setError }) => {
+export const DeckForm = ({ deck = {}, setError }) => {
   const { url } = useRouteMatch();
   const history = useHistory();
 
   //Deck Form state variables
   const [deckName, setDeckName] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
-  
+
   //Deck value tracker
   let newDeckId = 0;
+
   //Deck Form handlers
   const handleNameChange = (event) => setDeckName(event.target.value);
   const handleDescriptionChange = (event) =>
@@ -42,7 +40,21 @@ export const DeckForm = ({ deck = {}, setDeck, setError }) => {
     createNewDeck();
   };
 
-
+  const handleSubmitUpdate = (event) => {
+    event.preventDefault();
+    async function updateExistingDeck() {
+      try {
+        const abortController = new AbortController();
+        await updateDeck(deck, abortController.signal);
+        history.push(`/decks/${deck.id}`);
+      } catch (error) {
+        if (error.name === "AbortError") {
+          console.log("Abort Error");
+        }
+      }
+    }
+    updateExistingDeck();
+  };
 
   if (url === "/decks/new") {
     return (
@@ -88,9 +100,45 @@ export const DeckForm = ({ deck = {}, setDeck, setError }) => {
     );
   } else {
     return (
-      <div>
-        <h2>DeckForm - EditDeck Placeholder</h2>
-      </div>
+      <>
+        <form onSubmit={handleSubmitUpdate}>
+        <div className="form-group">
+            <label htmlFor="deckName">Name</label>
+            <input
+              id="deckName"
+              type="text"
+              name="deckName"
+              className="form-control"
+              onChange={handleNameChange}
+              value={deckName}
+              placeholder={deck.name}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="deckDescription">Description</label>
+            <textarea
+              id="deckDescription"
+              name="deckDescription"
+              className="form-control"
+              onChange={handleDescriptionChange}
+              value={deckDescription}
+              placeholder={deck.description}
+              rows="5"
+            />
+          </div>
+
+          <button
+            type="button"
+            className="btn btn-secondary mr-1"
+            onClick={() => history.push(`/decks/${deck.id}`)}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary ml-1">
+            Submit
+          </button>
+          </form>
+      </>
     );
   }
 };
