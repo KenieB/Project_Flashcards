@@ -16,25 +16,26 @@ import CardList from "./CardList";
 import { deleteDeck, listDecks } from "../../utils/api";
 
 export const ViewDeck = ({ deck, setDeck, deckCards, setError, setDecks }) => {
+  //router variable
   const params = useParams();
-  const { path } = useRouteMatch();
+  const { url } = useRouteMatch();
   const history = useHistory();
   const id = params.deckId;
 
+  //click handlers
   const editDeckClickHandler = (event) => {
     event.preventDefault();
-    history.push(`${path}/edit`);
+    history.push(`${url}/edit`);
   };
   const studyDeckClickHandler = (event) => {
     event.preventDefault();
-    history.push(`${path}/study`);
+    history.push(`${url}/study`);
   };
   const addCardClickHandler = (event) => {
     event.preventDefault();
-    history.push(`${path}/cards/new`);
+    history.push(`${url}/cards/new`);
   };
   const handleDelete = (event) => {
-    console.log("Delete deck click ", id, " executed");
     const abortController = new AbortController();
     const result = window.confirm(
       "Delete this deck?\n\nYou will not be able to recover it."
@@ -48,26 +49,6 @@ export const ViewDeck = ({ deck, setDeck, deckCards, setError, setDecks }) => {
       deleteThisDeck();
     }
   };
-
-  /* useEffect(() => {
-    if(!deck) {
-      const abortController = new AbortController();
-      listDecks(abortController.signal).then(setDecks).catch(setError);
-      
-      return () => abortController.abort();
-    }
-
-    
-  }, [deck]);*/
-
-  /*useEffect(() => {
-  //console.log("ViewDeck params:", params);
-  //console.log("ViewDeck location:", location);.
-  //console.log("ViewDeck url:", url);
-  //console.log("ViewDeck path:", path);
-  //console.log("ViewDeck - Current 'deck' value: ", deck)
-  console.log("ViewDeck - deckCards: ", deckCards);
-  })*/
 
   return (
     <>
@@ -87,7 +68,7 @@ export const ViewDeck = ({ deck, setDeck, deckCards, setError, setDecks }) => {
       <div className="deck-summary w-100">
         <h2>{deck.name}</h2>
         <p>{deck.description}</p>
-        <div className="button-row d-flex justify-content-between mr-5">
+        <div className="button-row d-flex justify-content-between">
           <div className="buttons-left w-75">
             <button
               type="button"
@@ -111,6 +92,7 @@ export const ViewDeck = ({ deck, setDeck, deckCards, setError, setDecks }) => {
               <PlusIcon size={16} /> Add Card
             </button>
           </div>
+          <div className="d-inline-flex flex-row-reverse w-25">
           <button
             type="button"
             className="btn btn-danger"
@@ -118,6 +100,7 @@ export const ViewDeck = ({ deck, setDeck, deckCards, setError, setDecks }) => {
           >
             <TrashIcon size={24} />
           </button>
+          </div>
         </div>
       </div>
 

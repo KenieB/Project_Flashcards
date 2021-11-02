@@ -1,13 +1,30 @@
 import React from "react";
 import { TrashIcon, PencilIcon } from "@primer/octicons-react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { deleteCard } from "../../utils/api";
 
 export const CardSummaryLayout = ({ card }) => {
-  const editClickHandler = (event) => {
-    //event.preventDefault();
-    //history.push(`/decks/${deck.id}`);
+  //router variables
+  const history = useHistory();
+  const { url } = useRouteMatch();
+  //click handlers
+  const editCardClickHandler = (event) => {
+    event.preventDefault();
+    history.push(`${url}/cards/${card.id}/edit`);
   };
-  const deleteClickHandler = (event) => {};
+  const deleteCardClickHandler = (event) => {
+    const abortController = new AbortController();
+    const result = window.confirm(
+      "Delete this card?\n\nYou will not be able to recover it."
+    );
+    const deleteThisCard = async () => {
+      await deleteCard(card.id, abortController.signal).then(event.preventDefault());
+      history.go(0);
+    };
+    if (result) {
+      deleteThisCard();
+    }
+  };
 
   return (
     <div className="list-group-item justify-content-between">
@@ -17,10 +34,18 @@ export const CardSummaryLayout = ({ card }) => {
       </div>
 
       <div className="card-buttons d-inline-flex w-100 justify-content-end">
-        <button type="button" className="btn btn-secondary mx-1">
+        <button
+          type="button"
+          className="btn btn-secondary mx-1"
+          onClick={editCardClickHandler}
+        >
           <PencilIcon size={16} /> Edit
         </button>
-        <button type="button" className="btn btn-danger mx-1">
+        <button
+          type="button"
+          className="btn btn-danger mx-1"
+          onClick={deleteCardClickHandler}
+        >
           <TrashIcon size={16} />
         </button>
       </div>

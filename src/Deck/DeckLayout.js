@@ -10,7 +10,7 @@ import AddCardLayout from "./CardManagement/AddCardLayout";
 import EditCardLayout from "./CardManagement/EditCardLayout";
 
 export const DeckLayout = ({ deck, setDeck, error, setError, setDecks }) => {
-  const { url, path } = useRouteMatch();
+  const { path } = useRouteMatch();
   const [deckCards, setDeckCards] = useState([]);
   const params = useParams();
   const id = params.deckId;
