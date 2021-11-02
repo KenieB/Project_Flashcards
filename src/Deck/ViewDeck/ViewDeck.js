@@ -1,21 +1,65 @@
 import React, { useEffect } from "react";
-import { useParams, Link, useLocation, useRouteMatch } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  useRouteMatch,
+  useHistory,
+} from "react-router-dom";
 import {
   HomeFillIcon,
-  EyeIcon,
   RepoIcon,
   TrashIcon,
   PencilIcon,
   PlusIcon,
 } from "@primer/octicons-react";
 import CardList from "./CardList";
+import { deleteDeck, listDecks } from "../../utils/api";
 
-export const ViewDeck = ({ deck, setDeck, deckCards }) => {
+export const ViewDeck = ({ deck, setDeck, deckCards, setError, setDecks }) => {
   const params = useParams();
-  const { url, path } = useRouteMatch();
-  const location = useLocation();
+  const { path } = useRouteMatch();
+  const history = useHistory();
+  const id = params.deckId;
 
- 
+  const editDeckClickHandler = (event) => {
+    event.preventDefault();
+    history.push(`${path}/edit`);
+  };
+  const studyDeckClickHandler = (event) => {
+    event.preventDefault();
+    history.push(`${path}/study`);
+  };
+  const addCardClickHandler = (event) => {
+    event.preventDefault();
+    history.push(`${path}/cards/new`);
+  };
+  const handleDelete = (event) => {
+    console.log("Delete deck click ", id, " executed");
+    const abortController = new AbortController();
+    const result = window.confirm(
+      "Delete this deck?\n\nYou will not be able to recover it."
+    );
+    const deleteThisDeck = async () => {
+      await deleteDeck(id, abortController.signal).then(event.preventDefault());
+      history.push("/");
+    };
+
+    if (result) {
+      deleteThisDeck();
+    }
+  };
+
+  /* useEffect(() => {
+    if(!deck) {
+      const abortController = new AbortController();
+      listDecks(abortController.signal).then(setDecks).catch(setError);
+      
+      return () => abortController.abort();
+    }
+
+    
+  }, [deck]);*/
+
   /*useEffect(() => {
   //console.log("ViewDeck params:", params);
   //console.log("ViewDeck location:", location);.
@@ -45,17 +89,33 @@ export const ViewDeck = ({ deck, setDeck, deckCards }) => {
         <p>{deck.description}</p>
         <div className="button-row d-flex justify-content-between mr-5">
           <div className="buttons-left w-75">
-            <button type="button" className="btn btn-secondary mr-1">
+            <button
+              type="button"
+              className="btn btn-secondary mr-1"
+              onClick={editDeckClickHandler}
+            >
               <PencilIcon size={16} /> Edit
             </button>
-            <button type="button" className="btn btn-primary mr-1">
+            <button
+              type="button"
+              className="btn btn-primary mr-1"
+              onClick={studyDeckClickHandler}
+            >
               <RepoIcon size={16} /> Study
             </button>
-            <button type="button" className="btn btn-primary">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={addCardClickHandler}
+            >
               <PlusIcon size={16} /> Add Card
             </button>
           </div>
-          <button type="button" className="btn btn-danger">
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={handleDelete}
+          >
             <TrashIcon size={24} />
           </button>
         </div>

@@ -54,6 +54,7 @@ function Layout() {
               setDeck={setDeck}
               error={error}
               setError={setError}
+              setDecks={setDecks}
             />
           </Route>
           <Route>

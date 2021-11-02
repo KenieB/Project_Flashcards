@@ -9,39 +9,32 @@ import EditDeckLayout from "./DeckManagement/EditDeckLayout";
 import AddCardLayout from "./CardManagement/AddCardLayout";
 import EditCardLayout from "./CardManagement/EditCardLayout";
 
-export const DeckLayout = ({ deck, setDeck, error, setError }) => {
+export const DeckLayout = ({ deck, setDeck, error, setError, setDecks }) => {
   const { url, path } = useRouteMatch();
-  const [deckCards, setDeckCards] = useState([]);  
+  const [deckCards, setDeckCards] = useState([]);
   const params = useParams();
   const id = params.deckId;
 
   useEffect(() => {
     const abortController = new AbortController();
     readDeck(id, abortController.signal).then(setDeck).catch(setError);
-
     return () => abortController.abort();
   }, [id, setDeck, setError]);
 
   useEffect(() => {
     setDeckCards(deck.cards);
-    console.log("DeckLayout - deck: ", deck);
-    console.log("DeckLayout - cards: ", deckCards);
   }, [deck]);
 
   return (
     <Switch>
       <Route exact path={path}>
-        <ViewDeck
-          deck={deck}
-          setDeck={setDeck}
-          deckCards={deckCards}
-        />
+        <ViewDeck deck={deck} setDeck={setDeck} deckCards={deckCards} setError={setError} setDecks={setDecks} />
       </Route>
       <Route path={`${path}/study`}>
         <StudyDeckLayout deck={deck} />
       </Route>
       <Route path={`${path}/edit`}>
-        <EditDeckLayout deck={deck} setDeck={setDeck}  />
+        <EditDeckLayout deck={deck} setDeck={setDeck} />
       </Route>
       <Route path={`${path}/cards/new`}>
         <AddCardLayout deck={deck} />
