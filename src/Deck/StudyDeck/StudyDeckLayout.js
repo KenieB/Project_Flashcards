@@ -11,12 +11,13 @@ import {
 
 export const StudyDeckLayout = ({ deck, deckCards = [], setDeckCards }) => {
   const params = useParams();
+  const thisDeckId = params.deckId;
   const { url, path } = useRouteMatch();
   const history = useHistory();
 
   const addCardClickHandler = (event) => {
     event.preventDefault();
-   //history.push(`${url}/cards/new`);
+    history.push(`/decks/${thisDeckId}/cards/new`);
   };
 
   if (deckCards.length < 3) {
@@ -40,14 +41,17 @@ export const StudyDeckLayout = ({ deck, deckCards = [], setDeckCards }) => {
         </nav>
         <h1>Study: {deck.name}</h1>
         <h3>Not enough cards.</h3>
-        <p>You need at least 3 cards to study. There are {deckCards.length} cards in this deck.</p>
+        <p>
+          You need at least 3 cards to study. There are {deckCards.length} cards
+          in this deck.
+        </p>
         <button
-              type="button"
-              className="btn btn-primary"
-              onClick={addCardClickHandler}
-            >
-              <PlusIcon size={16} /> Add Card
-            </button>
+          type="button"
+          className="btn btn-primary"
+          onClick={addCardClickHandler}
+        >
+          <PlusIcon size={16} /> Add Card
+        </button>
       </div>
     );
   } else {

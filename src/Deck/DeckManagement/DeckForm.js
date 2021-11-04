@@ -81,10 +81,9 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
   useEffect(() => {
     if(deckUpdateFlag){
       readDeck(exstDeckId).then(setDeck);
-      console.log("DeckForm useEffect deck: ", deck);
       history.push(`/decks/${deck.id}`);
     }    
-  },[deckUpdateFlag, deck, exstDeckId, history, setDeck]);
+  },[deckUpdateFlag]);
 
   if (url === "/decks/new") {
     return (

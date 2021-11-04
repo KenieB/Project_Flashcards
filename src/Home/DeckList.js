@@ -15,7 +15,7 @@ export const DeckList = ({
     const abortController = new AbortController();
     listDecks(abortController.signal).then(setDecks).catch(setError);
     return () => abortController.abort();
-  }, [setDecks, setError]);
+  }, []);
 
   const list = decks.map((deck) => (
     <DeckCover

@@ -17,7 +17,7 @@ export const DeckLayout = ({ deck, setDeck, error, setError, setDecks }) => {
     const abortController = new AbortController();
     readDeck(id, abortController.signal).then(setDeck).catch(setError);
     return () => abortController.abort();
-  }, [id, setDeck, setError]);
+  }, [id]);
 
   useEffect(() => {
     setDeckCards(deck.cards);
