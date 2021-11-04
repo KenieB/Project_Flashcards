@@ -1,6 +1,6 @@
 import React from "react";
 import { EyeIcon, RepoIcon, TrashIcon } from "@primer/octicons-react";
-import { deleteDeck, listDecks } from "../utils/api/index";
+import { deleteDeck } from "../utils/api/index";
 import { useHistory } from "react-router-dom";
 
 export const DeckCover = ({ deck = {}, setDecks, setError }) => {

@@ -3,8 +3,6 @@ import { Route, Switch, useRouteMatch, useParams } from "react-router-dom";
 import { readDeck } from "../utils/api";
 import ViewDeck from "./ViewDeck/ViewDeck";
 import StudyDeckLayout from "./StudyDeck/StudyDeckLayout";
-import NotFound from "../Layout/NotFound";
-
 import EditDeckLayout from "./DeckManagement/EditDeckLayout";
 import AddCardLayout from "./CardManagement/AddCardLayout";
 import EditCardLayout from "./CardManagement/EditCardLayout";
@@ -31,7 +29,7 @@ export const DeckLayout = ({ deck, setDeck, error, setError, setDecks }) => {
         <ViewDeck deck={deck} setDeck={setDeck} deckCards={deckCards} setError={setError} setDecks={setDecks} />
       </Route>
       <Route path={`${path}/study`}>
-        <StudyDeckLayout deck={deck} />
+        <StudyDeckLayout deck={deck} deckCards={deckCards} setDeckCards={setDeckCards} />
       </Route>
       <Route path={`${path}/edit`}>
         <EditDeckLayout deck={deck} setDeck={setDeck} />
@@ -41,9 +39,6 @@ export const DeckLayout = ({ deck, setDeck, error, setError, setDecks }) => {
       </Route>
       <Route path={`${path}/cards/:cardId/edit`}>
         <EditCardLayout deck={deck} />
-      </Route>
-      <Route>
-        <NotFound />
       </Route>
     </Switch>
   );

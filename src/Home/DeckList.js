@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import DeckCover from "./DeckCover";
 import { listDecks } from "../utils/api/index";
-import NotFound from "../Layout/NotFound";
-import { useHistory } from "react-router-dom";
 
 export const DeckList = ({
   decks,
@@ -12,8 +10,7 @@ export const DeckList = ({
   deck,
   setDeck,
 }) => {
-  const history = useHistory();
-
+ 
   useEffect(() => {
     const abortController = new AbortController();
     listDecks(abortController.signal).then(setDecks).catch(setError);

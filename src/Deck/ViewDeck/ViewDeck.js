@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   useParams,
   Link,
@@ -13,7 +13,7 @@ import {
   PlusIcon,
 } from "@primer/octicons-react";
 import CardList from "./CardList";
-import { deleteDeck, listDecks } from "../../utils/api";
+import { deleteDeck } from "../../utils/api";
 
 export const ViewDeck = ({ deck, setDeck, deckCards, setError, setDecks }) => {
   //router variable

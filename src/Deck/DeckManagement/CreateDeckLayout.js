@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, Link, useLocation, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { HomeFillIcon } from "@primer/octicons-react";
 import DeckForm from "./DeckForm";
 

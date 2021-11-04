@@ -1,6 +1,6 @@
 import React from "react";
 import { HomeFillIcon } from "@primer/octicons-react";
-import { useParams, Link, useLocation, useRouteMatch } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import DeckForm from "./DeckForm";
 
 export const EditDeckLayout = ({ deck={}, setDeck, deckUpdateFlag, setDeckUpdateFlag }) => {
