@@ -35,10 +35,10 @@ export const DeckLayout = ({ deck, setDeck, error, setError, setDecks }) => {
         <EditDeckLayout deck={deck} setDeck={setDeck} />
       </Route>
       <Route path={`${path}/cards/new`}>
-        <AddCardLayout deck={deck} />
+        <AddCardLayout deck={deck} setDeck={setDeck} />
       </Route>
       <Route path={`${path}/cards/:cardId/edit`}>
-        <EditCardLayout deck={deck} />
+        <EditCardLayout deck={deck} setDeck={setDeck} setError={setError} />
       </Route>
     </Switch>
   );

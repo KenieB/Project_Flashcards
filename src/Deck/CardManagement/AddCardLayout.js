@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { HomeFillIcon } from "@primer/octicons-react";
 import CardForm from "./CardForm";
 
-export const AddCardLayout = ({ deck = {} }) => {
+export const AddCardLayout = ({ deck = {}, setDeck }) => {
   const params = useParams();  
 
   return (
@@ -25,7 +25,7 @@ export const AddCardLayout = ({ deck = {} }) => {
         </ol>
       </nav>
       <h2>{deck.name}: Add Card</h2>
-      <CardForm deck={deck} />
+      <CardForm deck={deck} setDeck={setDeck} />
       
     </>
   );
