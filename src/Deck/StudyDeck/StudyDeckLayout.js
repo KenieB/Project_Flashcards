@@ -8,6 +8,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import StudyCards from "./StudyCards";
 
 export const StudyDeckLayout = ({ deck, deckCards = [], setDeckCards }) => {
   const params = useParams();
@@ -19,6 +20,8 @@ export const StudyDeckLayout = ({ deck, deckCards = [], setDeckCards }) => {
     event.preventDefault();
     history.push(`/decks/${thisDeckId}/cards/new`);
   };
+
+  console.log("StudyDeckLayout deckCards: ", deckCards);
 
   if (deckCards.length < 3) {
     return (
@@ -74,6 +77,9 @@ export const StudyDeckLayout = ({ deck, deckCards = [], setDeckCards }) => {
           </ol>
         </nav>
         <h1>Study: {deck.name}</h1>
+        <div>
+          <StudyCards deck={deck} />
+        </div>
       </div>
     );
   }

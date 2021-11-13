@@ -7,6 +7,7 @@ export const CardSummaryLayout = ({ card }) => {
   //router variables
   const history = useHistory();
   const { url } = useRouteMatch();
+  
   //click handlers
   const editCardClickHandler = (event) => {
     event.preventDefault();
