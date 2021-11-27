@@ -4,16 +4,12 @@ import {
   useParams,
   useHistory,
   Link,
-  useRouteMatch,
-  Switch,
-  Route,
 } from "react-router-dom";
 import StudyCards from "./StudyCards";
 
 export const StudyDeckLayout = ({ deck, deckCards = [], setDeckCards }) => {
   const params = useParams();
   const thisDeckId = params.deckId;
-  const { url, path } = useRouteMatch();
   const history = useHistory();
 
   const addCardClickHandler = (event) => {

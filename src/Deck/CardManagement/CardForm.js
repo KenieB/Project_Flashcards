@@ -19,10 +19,6 @@ export const CardForm = ({ deck, setDeck, activeCard = {} }) => {
   const handleCardFrontChange = (event) => setCardFront(event.target.value);
   const handleCardBackChange = (event) => setCardBack(event.target.value);
 
- /* function formPlaceholdersToValues() {
-    setCardFront(existingCardFront);
-    setCardBack(existingCardBack);
-  }*/
 
   //form submit handlers
   const handleSubmitNew = (event) => {
