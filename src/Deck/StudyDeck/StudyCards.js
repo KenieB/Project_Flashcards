@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 export const StudyCards = ({ deck }) => {
   const history = useHistory();
   const deckSize = deck.cards.length;
-  const nextBtn = document.querySelector("#next-btn");
   const [currentStudyCardIndex, setCurrentStudyCardIndex] = useState(0);
   const [currentStudyCard, setCurrentStudyCard] = useState({
     ...deck.cards[0],
@@ -25,7 +24,7 @@ export const StudyCards = ({ deck }) => {
     if (currentStudyCardIndex !== 0) {
       setCurrentStudyCard({ ...deck.cards[currentStudyCardIndex] });
     }
-  }, [currentStudyCardIndex]);
+  }, [currentStudyCardIndex, deck.cards]);
 
   useEffect(() => {
     if (currentStudyCardIndex !== 0) {
@@ -35,36 +34,19 @@ export const StudyCards = ({ deck }) => {
 
   useEffect(() => {
     if (!currentCardFrontview) {
-      //nextBtn.classList.add("disabled");
       if (currentStudyCardIndex === deckSize) {
         const result = window.confirm(
           "Restart cards?\n\nClick 'cancel' to return to the home page."
         );
         if (result) {
-          //nextBtn.classList.remove("disabled");
           history.go(0);
         } else {
-          //nextBtn.classList.remove("disabled");
           history.push("/");
         }
       }
     }
   }, [currentStudyCardIndex]);
-  /*useEffect(() => {
-    if (nextBtn.classList.contains("disabled")) {
-      const result = window.confirm(
-        "Restart cards?\n\nClick 'cancel' to return to the home page."
-      );
-      if (result) {
-        nextBtn.classList.remove("disabled");
-        history.go(0);
-      } else {
-        nextBtn.classList.remove("disabled");
-        history.push("/");
-      }
-    }
-  });*/
-
+ 
   if (currentCardFrontview) {
     return (
       <div className="card">
@@ -93,7 +75,7 @@ export const StudyCards = ({ deck }) => {
       <div className="card">
         <div className="card-body">
           <h4 className="card-title">
-            Card {currentStudyCardIndex + 1} of {deckSize}
+            Card {Math.min(currentStudyCardIndex + 1, deckSize)} of {deckSize}
           </h4>
           <StudyCardContent
             currentStudyCard={currentStudyCard}

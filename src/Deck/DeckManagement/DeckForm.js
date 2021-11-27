@@ -10,6 +10,8 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
   const [deckName, setDeckName] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
   const [deckUpdateFlag, setDeckUpdateFlag] = useState(false);
+  const existingDeckName = deck.name;
+  const existingDeckDescription = deck.description;
 
   //Deck value tracker
   let newDeckId = 0;
@@ -44,29 +46,27 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
 
   const handleSubmitUpdate = (event) => {
     event.preventDefault();
-    const updatedDeck = {id: deck.id};
-    
-    if(deckName) {
-      if(deckDescription) {
+    const updatedDeck = { id: deck.id };
+
+    if (deckName) {
+      if (deckDescription) {
         updatedDeck.name = deckName;
         updatedDeck.description = deckDescription;
       } else {
         updatedDeck.name = deckName;
         updatedDeck.description = deck.description;
       }
-    } else if(deckDescription) {
+    } else if (deckDescription) {
       updatedDeck.name = deck.name;
       updatedDeck.description = deckDescription;
     } else {
       updatedDeck.name = deck.name;
       updatedDeck.description = deck.description;
-    };
-    console.log("Deck form- updatedDeck: ", updatedDeck);
-    
+    }
+
     async function updateExistingDeck() {
       try {
         const abortController = new AbortController();
-        console.log("handleSubmitUpdate deck before: ", deck);
         await updateDeck(updatedDeck, abortController.signal);
         setDeckUpdateFlag(true);
       } catch (error) {
@@ -79,11 +79,20 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
   };
 
   useEffect(() => {
-    if(deckUpdateFlag){
+    if (!url.includes("new")) {
+      if (!deckName && !deckDescription) {
+        setDeckName(existingDeckName);
+        setDeckDescription(existingDeckDescription);
+      }
+    }
+  }, [existingDeckName, existingDeckDescription]);
+
+  useEffect(() => {
+    if (deckUpdateFlag) {
       readDeck(exstDeckId).then(setDeck);
       history.push(`/decks/${deck.id}`);
-    }    
-  },[deckUpdateFlag]);
+    }
+  }, [deckUpdateFlag]);
 
   if (url === "/decks/new") {
     return (
@@ -140,7 +149,7 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
               className="form-control"
               onChange={handleNameChange}
               value={deckName}
-              placeholder={deck.name}
+              placeholder={existingDeckName}
             />
           </div>
           <div className="form-group">
@@ -151,7 +160,7 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
               className="form-control"
               onChange={handleDescriptionChange}
               value={deckDescription}
-              placeholder={deck.description}
+              placeholder={existingDeckDescription}
               rows="5"
             />
           </div>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { readCard, updateCard, createCard, readDeck } from "../../utils/api";
-import { useRouteMatch, useHistory, useParams } from "react-router-dom";
+import { updateCard, createCard, readDeck } from "../../utils/api";
+import { useRouteMatch, useHistory } from "react-router-dom";
 
-export const CardForm = ({ deck, setDeck, activeCard={} }) => {
+export const CardForm = ({ deck, setDeck, activeCard = {} }) => {
   //state variables
   const [cardFront, setCardFront] = useState("");
   const [cardBack, setCardBack] = useState("");
@@ -14,12 +14,15 @@ export const CardForm = ({ deck, setDeck, activeCard={} }) => {
   //other variables
   const { url } = useRouteMatch();
   const history = useHistory();
-  const params = useParams();
 
-  
   //form change handlers
   const handleCardFrontChange = (event) => setCardFront(event.target.value);
   const handleCardBackChange = (event) => setCardBack(event.target.value);
+
+ /* function formPlaceholdersToValues() {
+    setCardFront(existingCardFront);
+    setCardBack(existingCardBack);
+  }*/
 
   //form submit handlers
   const handleSubmitNew = (event) => {
@@ -31,12 +34,6 @@ export const CardForm = ({ deck, setDeck, activeCard={} }) => {
           currentDeckId,
           { front: cardFront, back: cardBack },
           abortController.signal
-        );
-        console.log(
-          "CardForm created new card with ID: ",
-          response.id,
-          " in deck #",
-          currentDeckId
         );
       } catch (error) {
         if (error.name === "AbortError") {
@@ -55,17 +52,17 @@ export const CardForm = ({ deck, setDeck, activeCard={} }) => {
       try {
         const abortController = new AbortController();
         const updatedCard = { ...activeCard };
-        if(cardFront) {
-          if(cardBack) {
+        if (cardFront) {
+          if (cardBack) {
             updatedCard.front = cardFront;
             updatedCard.back = cardBack;
           } else {
             updatedCard.front = cardFront;
           }
-        } else if(cardBack) {
+        } else if (cardBack) {
           updatedCard.back = cardBack;
         }
-        //
+
         await updateCard(updatedCard, abortController.signal);
         setCardUpdateFlag(true);
       } catch (error) {
@@ -77,12 +74,21 @@ export const CardForm = ({ deck, setDeck, activeCard={} }) => {
     updateExistingCard();
   };
 
+  useEffect(()=> {
+    if(!url.includes("new")) {
+      if(!cardFront && !cardBack) {
+        setCardFront(existingCardFront);
+        setCardBack(existingCardBack);
+      }
+    }
+  }, [existingCardFront,existingCardBack])
+
   useEffect(() => {
-    if(cardUpdateFlag){
+    if (cardUpdateFlag) {
       readDeck(currentDeckId).then(setDeck);
       history.push(`/decks/${currentDeckId}`);
-    }    
-  },[cardUpdateFlag]);
+    }
+  }, [cardUpdateFlag]);
 
   if (url === `/decks/${deck.id}/cards/new`) {
     return (

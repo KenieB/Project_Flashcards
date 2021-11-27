@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useRouteMatch } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { HomeFillIcon } from "@primer/octicons-react";
 import CardForm from "./CardForm";
 import { readCard } from "../../utils/api";
 
 export const EditCardLayout = ({ deck = {}, setDeck, setError }) => {
-  const { url, path } = useRouteMatch();
   const [activeCard, setActiveCard] = useState({});
   const params = useParams();
   const thisCardId = params.cardId;

@@ -7,7 +7,6 @@ export const DeckCover = ({ deck = {}, setDecks, setError }) => {
   const history = useHistory();
   const id = deck.id;
   const handleDelete = (event) => {
-    console.log("Delete deck click ", id, " executed");
     const abortController = new AbortController();
     const result = window.confirm(
       "Delete this deck?\n\nYou will not be able to recover it."

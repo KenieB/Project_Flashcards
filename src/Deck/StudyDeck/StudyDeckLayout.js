@@ -21,8 +21,6 @@ export const StudyDeckLayout = ({ deck, deckCards = [], setDeckCards }) => {
     history.push(`/decks/${thisDeckId}/cards/new`);
   };
 
-  console.log("StudyDeckLayout deckCards: ", deckCards);
-
   if (deckCards.length < 3) {
     return (
       <div>
