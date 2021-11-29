@@ -17,6 +17,7 @@ export const DeckLayout = ({ deck, setDeck, error, setError, setDecks }) => {
     const abortController = new AbortController();
     readDeck(id, abortController.signal).then(setDeck).catch(setError);
     return () => abortController.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {

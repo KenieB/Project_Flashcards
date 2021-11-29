@@ -15,6 +15,7 @@ export const DeckList = ({
     const abortController = new AbortController();
     listDecks(abortController.signal).then(setDecks).catch(setError);
     return () => abortController.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const list = decks.map((deck) => (

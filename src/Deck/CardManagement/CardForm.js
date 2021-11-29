@@ -19,14 +19,13 @@ export const CardForm = ({ deck, setDeck, activeCard = {} }) => {
   const handleCardFrontChange = (event) => setCardFront(event.target.value);
   const handleCardBackChange = (event) => setCardBack(event.target.value);
 
-
   //form submit handlers
   const handleSubmitNew = (event) => {
     event.preventDefault();
     async function createNewCard() {
       try {
         const abortController = new AbortController();
-        const response = await createCard(
+        await createCard(
           currentDeckId,
           { front: cardFront, back: cardBack },
           abortController.signal
@@ -70,20 +69,22 @@ export const CardForm = ({ deck, setDeck, activeCard = {} }) => {
     updateExistingCard();
   };
 
-  useEffect(()=> {
-    if(!url.includes("new")) {
-      if(!cardFront && !cardBack) {
+  useEffect(() => {
+    if (!url.includes("new")) {
+      if (!cardFront && !cardBack) {
         setCardFront(existingCardFront);
         setCardBack(existingCardBack);
       }
     }
-  }, [existingCardFront,existingCardBack])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [existingCardFront, existingCardBack]);
 
   useEffect(() => {
     if (cardUpdateFlag) {
       readDeck(currentDeckId).then(setDeck);
       history.push(`/decks/${currentDeckId}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardUpdateFlag]);
 
   if (url === `/decks/${deck.id}/cards/new`) {

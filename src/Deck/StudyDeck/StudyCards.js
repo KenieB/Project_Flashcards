@@ -30,6 +30,7 @@ export const StudyCards = ({ deck }) => {
     if (currentStudyCardIndex !== 0) {
       setCurrentCardFrontview(!currentCardFrontview);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStudyCard]);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ export const StudyCards = ({ deck }) => {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStudyCardIndex]);
  
   if (currentCardFrontview) {

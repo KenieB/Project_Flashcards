@@ -15,6 +15,7 @@ export const EditCardLayout = ({ deck = {}, setDeck, setError }) => {
       .then(setActiveCard)
       .catch(setError);
     return () => abortController.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thisCardId]);
 
   return (

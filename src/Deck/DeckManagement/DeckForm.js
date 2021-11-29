@@ -85,6 +85,7 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
         setDeckDescription(existingDeckDescription);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [existingDeckName, existingDeckDescription]);
 
   useEffect(() => {
@@ -92,6 +93,7 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
       readDeck(exstDeckId).then(setDeck);
       history.push(`/decks/${deck.id}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deckUpdateFlag]);
 
   if (url === "/decks/new") {
