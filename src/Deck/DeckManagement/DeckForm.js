@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { createDeck, updateDeck, readDeck } from "../../utils/api";
 
@@ -6,19 +6,37 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
   const { url } = useRouteMatch();
   const history = useHistory();
 
-  //Deck Form state variables
-  const [deckName, setDeckName] = useState("");
-  const [deckDescription, setDeckDescription] = useState("");
-  const [deckUpdateFlag, setDeckUpdateFlag] = useState(false);
-  const existingDeckName = deck.name;
-  const existingDeckDescription = deck.description;
+  const firstRender = useRef(true);
 
   //Deck value tracker
   let newDeckId = 0;
   const exstDeckId = deck.id;
+  const existingDeckName = deck.name;
+  const existingDeckDescription = deck.description;
+
+  function initNameState() {
+    if (!url.includes("new")) {
+      return deck.name;
+    } else {
+      return "Deck name";
+    }
+  }
+  function initDescrState() {
+    if (!url.includes("new")) {
+      return deck.description;
+    } else {
+      return "Brief description of deck";
+    }
+  }
+  //Deck Form state variables
+  const [deckName, setDeckName] = useState(initNameState());
+  const [deckDescription, setDeckDescription] = useState(initDescrState());
+  const [deckUpdateFlag, setDeckUpdateFlag] = useState(false);
 
   //Deck Form handlers
-  const handleNameChange = (event) => setDeckName(event.target.value);
+  const handleNameChange = (event) => { 
+    setDeckName(event.target.value)
+  };
   const handleDescriptionChange = (event) =>
     setDeckDescription(event.target.value);
 
@@ -46,29 +64,17 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
 
   const handleSubmitUpdate = (event) => {
     event.preventDefault();
-    const updatedDeck = { id: deck.id };
-
-    if (deckName) {
-      if (deckDescription) {
-        updatedDeck.name = deckName;
-        updatedDeck.description = deckDescription;
-      } else {
-        updatedDeck.name = deckName;
-        updatedDeck.description = deck.description;
-      }
-    } else if (deckDescription) {
-      updatedDeck.name = deck.name;
-      updatedDeck.description = deckDescription;
-    } else {
-      updatedDeck.name = deck.name;
-      updatedDeck.description = deck.description;
-    }
-
     async function updateExistingDeck() {
       try {
         const abortController = new AbortController();
+
+        const updatedDeck = {
+          id: exstDeckId,
+          name: deckName,
+          description: deckDescription,
+        };
         await updateDeck(updatedDeck, abortController.signal);
-        setDeckUpdateFlag(true);
+        setDeckUpdateFlag(() => true);
       } catch (error) {
         if (error.name === "AbortError") {
           console.log("Abort Error");
@@ -79,10 +85,17 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
   };
 
   useEffect(() => {
-    if (!url.includes("new")) {
+    if (firstRender) {
+      firstRender.current = false;
+      return;
+    }
+  });
+
+  useEffect(() => {
+    if (!url.includes("new") && firstRender) {
       if (!deckName && !deckDescription) {
-        setDeckName(existingDeckName);
-        setDeckDescription(existingDeckDescription);
+        setDeckName(deck.name);
+        setDeckDescription(deck.description);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,7 +122,6 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
               className="form-control"
               onChange={handleNameChange}
               value={deckName}
-              placeholder="Deck name"
             />
           </div>
           <div className="form-group">
@@ -120,7 +132,6 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
               className="form-control"
               onChange={handleDescriptionChange}
               value={deckDescription}
-              placeholder="Brief description of the deck"
               rows="5"
             />
           </div>
@@ -150,8 +161,7 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
               name="deckName"
               className="form-control"
               onChange={handleNameChange}
-              value={deckName}
-              placeholder={existingDeckName}
+              value={deckName || ""}
             />
           </div>
           <div className="form-group">
@@ -161,8 +171,7 @@ export const DeckForm = ({ deck = {}, setDeck }) => {
               name="deckDescription"
               className="form-control"
               onChange={handleDescriptionChange}
-              value={deckDescription}
-              placeholder={existingDeckDescription}
+              value={deckDescription || ""}
               rows="5"
             />
           </div>
